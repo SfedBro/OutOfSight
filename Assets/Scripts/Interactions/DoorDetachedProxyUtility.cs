@@ -30,10 +30,9 @@ namespace Game.Interaction
 
             GameObject bodyRoot = new GameObject(sourceRoot.name);
             bodyRoot.layer = sourceRoot.gameObject.layer;
-            bodyRoot.transform.SetParent(detachedRootObject.transform, false);
-            bodyRoot.transform.localPosition = -hingeLocalOffset;
-            bodyRoot.transform.localRotation = Quaternion.identity;
+            bodyRoot.transform.SetPositionAndRotation(sourceRoot.position, sourceRoot.rotation);
             bodyRoot.transform.localScale = sourceRoot.lossyScale;
+            bodyRoot.transform.SetParent(detachedRootObject.transform, true);
 
             DoorInteractableForwarder forwarder = bodyRoot.AddComponent<DoorInteractableForwarder>();
             forwarder.Initialize(interactionSource);

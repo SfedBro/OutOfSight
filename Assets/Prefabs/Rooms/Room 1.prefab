@@ -137,7 +137,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 16.75, y: 3.0000007, z: -36.75}
-  m_LocalScale: {x: 0.37717405, y: 6, z: -25.497591}
+  m_LocalScale: {x: 0.37717405, y: 6, z: 25.49759}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3263613539067467167}
@@ -385,7 +385,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.1875, y: 3.0000007, z: -36.75}
-  m_LocalScale: {x: 0.37718984, y: 6, z: -25.497591}
+  m_LocalScale: {x: 0.37718984, y: 6, z: 25.49759}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3263613539067467167}
@@ -925,7 +925,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 21.75, y: 3, z: -22.5}
-  m_LocalScale: {x: 0.50001633, y: 6, z: -1.9982245}
+  m_LocalScale: {x: 0.50001633, y: 6, z: 1.998224}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3263613539067467167}
@@ -1013,6 +1013,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3263613539067467167}
+  - component: {fileID: 7562210064221100390}
   m_Layer: 0
   m_Name: Inner Walls
   m_TagString: Untagged
@@ -1045,6 +1046,22 @@ Transform:
   - {fileID: 4627401121606334210}
   m_Father: {fileID: 5645237081211794915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7562210064221100390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234558039387667402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec14c6d17c2a4b83a6d5e9874d11b4ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalMetersPerTile: 2
+  verticalMetersPerTile: 1
+  includeInactiveRenderers: 1
+  tilingMultiplier: {x: 1, y: 1}
 --- !u!1 &8197888705602480963
 GameObject:
   m_ObjectHideFlags: 0

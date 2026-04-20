@@ -16,6 +16,7 @@ namespace Game.Interaction
         {
             SelfRotation,
             InferredHingeOrbit,
+            ExternalPivotOrbit,
             ExternalPivotRotation,
             ChildPivotOrbit
         }
@@ -46,6 +47,9 @@ namespace Game.Interaction
         private bool isUsingVisualProxy;
         private Transform detachedHingeTransform;
         private GameObject detachedProxyRootObject;
+        private Transform externalOrbitHingeTransform;
+        private Transform originalParent;
+        private int originalSiblingIndex;
         private Transform visualProxyTransform;
         private Vector3 inferredHingeLocalPoint;
         private Quaternion closedLocalRotation;
@@ -61,6 +65,7 @@ namespace Game.Interaction
         private void Awake()
         {
             ResolveMotionMode();
+            SetupExternalOrbitHingeIfNeeded();
             SetupVisualProxyIfNeeded();
             CacheRotations();
             UpdateLockedPrompt();
@@ -87,6 +92,7 @@ namespace Game.Interaction
                 case MotionMode.ChildPivotOrbit:
                     UpdateOrbitMotion();
                     break;
+                case MotionMode.ExternalPivotOrbit:
                 case MotionMode.ExternalPivotRotation:
                 case MotionMode.SelfRotation:
                     UpdateRotationMotion();
@@ -101,6 +107,11 @@ namespace Game.Interaction
             if (detachedProxyRootObject != null)
                 Destroy(detachedProxyRootObject);
 
+            if (externalOrbitHingeTransform != null)
+            {
+                Destroy(externalOrbitHingeTransform.gameObject);
+            }
+
             if (visualProxyTransform != null)
                 Destroy(visualProxyTransform.gameObject);
 
@@ -112,6 +123,9 @@ namespace Game.Interaction
 
         public string GetPrompt()
         {
+            if (TryGetInteractionOverride(null, out var interactionOverride))
+                return interactionOverride.GetPrompt();
+
             if (isOpen)
                 return closePrompt;
 
@@ -120,11 +134,20 @@ namespace Game.Interaction
 
         public bool CanInteract(GameObject interactor)
         {
+            if (TryGetInteractionOverride(interactor, out var interactionOverride))
+                return interactionOverride.CanInteract(interactor);
+
             return isOpen || isUnlocked || HasRequiredKey(interactor);
         }
 
         public void Interact(GameObject interactor)
         {
+            if (TryGetInteractionOverride(interactor, out var interactionOverride))
+            {
+                interactionOverride.Interact(interactor);
+                return;
+            }
+
             if (isOpen)
             {
                 isOpen = false;
@@ -146,6 +169,12 @@ namespace Game.Interaction
             isOpen = true;
         }
 
+        private bool TryGetInteractionOverride(GameObject interactor, out IInteractionOverride interactionOverride)
+        {
+            interactionOverride = GetComponentInParent<IInteractionOverride>();
+            return interactionOverride != null && interactionOverride.IsActiveFor(interactor);
+        }
+
         private void CacheRotations()
         {
             if (isUsingDetachedProxy && detachedHingeTransform != null)
@@ -155,17 +184,26 @@ namespace Game.Interaction
                 return;
             }
 
-            if (motionMode == MotionMode.ChildPivotOrbit || motionMode == MotionMode.InferredHingeOrbit)
+            if (motionMode == MotionMode.ExternalPivotOrbit && externalOrbitHingeTransform != null)
+            {
+                closedLocalRotation = externalOrbitHingeTransform.localRotation;
+                openLocalRotation = closedLocalRotation * GetOpenDeltaRotation();
+                return;
+            }
+
+            if (motionMode == MotionMode.ChildPivotOrbit ||
+                motionMode == MotionMode.InferredHingeOrbit ||
+                motionMode == MotionMode.ExternalPivotOrbit)
             {
                 closedWorldPosition = transform.position;
                 closedWorldRotation = transform.rotation;
 
-                Vector3 hingeLocalOffset = motionMode == MotionMode.ChildPivotOrbit
-                    ? transform.InverseTransformPoint(pivot.position)
-                    : inferredHingeLocalPoint;
-                Vector3 hingeWorldPosition = motionMode == MotionMode.ChildPivotOrbit
-                    ? pivot.position
-                    : transform.TransformPoint(inferredHingeLocalPoint);
+                Vector3 hingeLocalOffset = motionMode == MotionMode.InferredHingeOrbit
+                    ? inferredHingeLocalPoint
+                    : transform.InverseTransformPoint(pivot.position);
+                Vector3 hingeWorldPosition = motionMode == MotionMode.InferredHingeOrbit
+                    ? transform.TransformPoint(inferredHingeLocalPoint)
+                    : pivot.position;
 
                 openWorldRotation = closedWorldRotation * GetOpenDeltaRotation();
                 openWorldPosition = hingeWorldPosition - (openWorldRotation * hingeLocalOffset);
@@ -216,9 +254,34 @@ namespace Game.Interaction
                 return;
             }
 
-            motionMode = pivot.IsChildOf(transform)
-                ? MotionMode.ChildPivotOrbit
-                : MotionMode.ExternalPivotRotation;
+            if (pivot.IsChildOf(transform))
+            {
+                motionMode = MotionMode.ChildPivotOrbit;
+                return;
+            }
+
+            motionMode = transform.IsChildOf(pivot)
+                ? MotionMode.ExternalPivotRotation
+                : MotionMode.ExternalPivotOrbit;
+        }
+
+        private void SetupExternalOrbitHingeIfNeeded()
+        {
+            if (!Application.isPlaying || motionMode != MotionMode.ExternalPivotOrbit || pivot == null)
+                return;
+
+            if (externalOrbitHingeTransform != null)
+                return;
+
+            originalParent = transform.parent;
+            originalSiblingIndex = transform.GetSiblingIndex();
+
+            GameObject hingeObject = new GameObject($"{transform.name}_ExternalHinge");
+            externalOrbitHingeTransform = hingeObject.transform;
+            externalOrbitHingeTransform.SetPositionAndRotation(pivot.position, pivot.rotation);
+            externalOrbitHingeTransform.SetParent(pivot.parent, true);
+
+            transform.SetParent(externalOrbitHingeTransform, true);
         }
 
         private void SetupVisualProxyIfNeeded()
@@ -256,6 +319,8 @@ namespace Game.Interaction
         {
             return motionMode == MotionMode.ChildPivotOrbit
                 ? transform.InverseTransformPoint(pivot.position)
+                : motionMode == MotionMode.ExternalPivotOrbit
+                    ? transform.InverseTransformPoint(pivot.position)
                 : motionMode == MotionMode.InferredHingeOrbit
                     ? inferredHingeLocalPoint
                     : Vector3.zero;
@@ -263,7 +328,7 @@ namespace Game.Interaction
 
         private void UpdateRotationMotion()
         {
-            Transform animatedTransform = motionMode == MotionMode.ExternalPivotRotation ? pivot : transform;
+            Transform animatedTransform = GetAnimatedTransform();
             if (animatedTransform == null)
                 return;
 
@@ -302,7 +367,7 @@ namespace Game.Interaction
 
         private void UpdateOrbitMotion()
         {
-            if (motionMode == MotionMode.ChildPivotOrbit && pivot == null)
+            if ((motionMode == MotionMode.ChildPivotOrbit || motionMode == MotionMode.ExternalPivotOrbit) && pivot == null)
                 return;
 
             Vector3 targetPosition = isOpen ? openWorldPosition : closedWorldPosition;
@@ -315,6 +380,17 @@ namespace Game.Interaction
             transform.SetPositionAndRotation(
                 Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speed),
                 Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed));
+        }
+
+        private Transform GetAnimatedTransform()
+        {
+            if (motionMode == MotionMode.ExternalPivotRotation)
+                return pivot;
+
+            if (motionMode == MotionMode.ExternalPivotOrbit && externalOrbitHingeTransform != null)
+                return externalOrbitHingeTransform;
+
+            return transform;
         }
 
         private bool TryGetInferredHingeLocalPoint(out Vector3 hingeLocalPoint)

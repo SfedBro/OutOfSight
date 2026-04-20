@@ -23,6 +23,8 @@ namespace Game.Interaction
         private const int MaxRaycastHits = 16;
 
         private IInteractable current;
+        private IInteractionOverride currentOverride;
+        private IPlayerContextInteraction currentContextInteraction;
         private Transform playerCameraTransform;
         private GameObject resolvedInteractorRoot;
         private string lastPromptValue = string.Empty;
@@ -59,6 +61,8 @@ namespace Game.Interaction
         private void OnDisable()
         {
             current = null;
+            currentOverride = null;
+            currentContextInteraction = null;
             ClearPrompt();
         }
 
@@ -66,12 +70,28 @@ namespace Game.Interaction
         {
             UpdateTarget();
 
-            if (current == null || !Input.GetKeyDown(interactKey))
+            if (!Input.GetKeyDown(interactKey))
                 return;
 
             GameObject interactorObject = GetInteractorObject();
-            if (!current.CanInteract(interactorObject))
+
+            if (currentOverride != null)
+            {
+                if (!currentOverride.CanInteract(interactorObject))
+                    return;
+
+                currentOverride.Interact(interactorObject);
                 return;
+            }
+
+            if (current == null || !current.CanInteract(interactorObject))
+            {
+                if (currentContextInteraction == null || !currentContextInteraction.CanInteract(interactorObject))
+                    return;
+
+                currentContextInteraction.Interact(interactorObject);
+                return;
+            }
 
             current.Interact(interactorObject);
             NotifyInteractionDialogue(current, interactorObject);
@@ -80,6 +100,8 @@ namespace Game.Interaction
         private void UpdateTarget()
         {
             current = null;
+            currentOverride = null;
+            currentContextInteraction = null;
 
             if (playerCameraTransform == null)
             {
@@ -102,12 +124,22 @@ namespace Game.Interaction
                 for (int i = 0; i < hitCount; i++)
                 {
                     Collider hitCollider = raycastHits[i].collider;
-                    if (hitCollider == null)
-                        continue;
+                if (hitCollider == null)
+                    continue;
 
-                    IInteractable interactable = hitCollider.GetComponentInParent<IInteractable>();
-                    if (interactable == null)
-                        continue;
+                GameObject interactorObject = GetInteractorObject();
+                IInteractionOverride interactionOverride = hitCollider.GetComponentInParent<IInteractionOverride>();
+                if (interactionOverride != null && interactionOverride.IsActiveFor(interactorObject))
+                {
+                    currentOverride = interactionOverride;
+                    string overridePrompt = interactionOverride.GetPrompt();
+                    SetPrompt(string.IsNullOrWhiteSpace(overridePrompt) ? string.Empty : $"{interactKey}: {overridePrompt}");
+                    return;
+                }
+
+                IInteractable interactable = hitCollider.GetComponentInParent<IInteractable>();
+                if (interactable == null)
+                    continue;
 
                     current = interactable;
                     string prompt = interactable.GetPrompt();
@@ -121,7 +153,40 @@ namespace Game.Interaction
                 }
             }
 
+            if (TryResolveContextInteraction())
+                return;
+
             SetPrompt(string.Empty);
+        }
+
+        private bool TryResolveContextInteraction()
+        {
+            GameObject interactorObject = GetInteractorObject();
+            if (interactorObject == null)
+                return false;
+
+            MonoBehaviour[] behaviours = interactorObject.GetComponents<MonoBehaviour>();
+            for (int i = 0; i < behaviours.Length; i++)
+            {
+                MonoBehaviour behaviour = behaviours[i];
+                if (behaviour == null || !behaviour.isActiveAndEnabled)
+                    continue;
+
+                if (behaviour is not IPlayerContextInteraction contextInteraction)
+                    continue;
+
+                if (!contextInteraction.CanInteract(interactorObject))
+                    continue;
+
+                currentContextInteraction = contextInteraction;
+                string prompt = contextInteraction.GetPrompt(interactorObject);
+                if (!string.IsNullOrWhiteSpace(prompt))
+                    SetPrompt($"{interactKey}: {prompt}");
+
+                return true;
+            }
+
+            return false;
         }
 
         private sealed class RaycastHitDistanceComparer : IComparer<RaycastHit>
