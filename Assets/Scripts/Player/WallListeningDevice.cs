@@ -5,7 +5,7 @@ using UnityEngine;
 public class WallListeningDevice : MonoBehaviour
 {
     [Header("Input")]
-    [SerializeField] private KeyCode activationKey = KeyCode.Alpha1;
+    [SerializeField] private KeyCode activationKey = KeyCode.Q;
     [SerializeField] private float activationCooldown = 0.25f;
 
     [Header("References")]

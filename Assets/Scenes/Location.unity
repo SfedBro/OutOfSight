@@ -735,34 +735,6 @@ AudioClip:
     m_Offset: 0
     m_Size: 0
   m_EditorCompressionFormat: 0
---- !u!114 &153338671
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
-  m_Name: ColorAdjustments
-  m_EditorClassIdentifier: 
-  active: 1
-  postExposure:
-    m_OverrideState: 1
-    m_Value: 0
-  contrast:
-    m_OverrideState: 1
-    m_Value: 0
-  colorFilter:
-    m_OverrideState: 1
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
-  hueShift:
-    m_OverrideState: 1
-    m_Value: 0
-  saturation:
-    m_OverrideState: 1
-    m_Value: 0
 --- !u!1 &171784092
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,6 +1627,12 @@ PlayableDirector:
     value: {fileID: 874573411}
   - key: {fileID: 187554229895681938, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
     value: {fileID: 1986611197}
+  - key: {fileID: -1726534423250428781, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    value: {fileID: 274622856}
+  - key: {fileID: -8440286701239657814, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    value: {fileID: 874573411}
+  - key: {fileID: -4549247652596118235, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    value: {fileID: 1986611197}
   m_ExposedReferences:
     m_References:
     - 9cf185a339894654ca53c27fb78a0ac5: {fileID: 819334415}
@@ -1672,31 +1650,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Events:
     m_Signals:
-    - {fileID: 4623894832821796921, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -4759425308373305119, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -8482735354244388294, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -3192799875258758216, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 548369340276003472, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -7756165371479273158, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -5517515854969074783, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -2829107926618961056, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 8996392416615453591, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -8243264665456291971, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 4606710517300955152, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -3905565863079409118, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 745694752393667592, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -4638905332328982601, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 8046804852024637682, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 2784147262775349951, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 5676837610387320492, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 5904707470751362852, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 7078741539159177340, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -6663270631230556420, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 42531650145588288, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 7753545651112889522, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: 1276387845075219963, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -1624426928705794245, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
-    - {fileID: -8531585406850594, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 4526170127209284482, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 2884348551723832942, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 3494515420178747232, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 5213318245286403414, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -5187861265357739730, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 3204750137421127620, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -7914701862199329848, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -3373839447292359557, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 1067640095223828057, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -7666946073736203841, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 2505176210041156493, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -7813790419711768268, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -7591479566017565353, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -930907779972130089, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 8738979567149151952, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -6516797790787520444, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 1841852163488731878, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -6995476734825234590, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 581039310021641972, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 9096588878840970752, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: 4512822968965965959, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -8546947433004053754, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -1314883818663947608, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -5010736232291655317, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
+    - {fileID: -7905543361199727549, guid: cda08446c8cbb0e4d8a4057946b2b470, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -6746,21 +6724,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1246507097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &932357235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  components:
-  - {fileID: 1133418679}
-  - {fileID: 153338671}
 --- !u!1 &954421461
 GameObject:
   m_ObjectHideFlags: 0
@@ -7960,34 +7923,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132085750}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1133418679
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
-  m_Name: Vignette
-  m_EditorClassIdentifier: 
-  active: 1
-  color:
-    m_OverrideState: 1
-    m_Value: {r: 0, g: 0, b: 0, a: 1}
-  center:
-    m_OverrideState: 1
-    m_Value: {x: 0.5, y: 0.5}
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0
-  smoothness:
-    m_OverrideState: 1
-    m_Value: 0.85
-  rounded:
-    m_OverrideState: 1
-    m_Value: 0
 --- !u!1 &1134931255
 GameObject:
   m_ObjectHideFlags: 0
@@ -9445,6 +9380,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcaa111e519ad2f40b19f5bf07765faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1309567122
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  color:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+  center:
+    m_OverrideState: 1
+    m_Value: {x: 0.5, y: 0.5}
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  smoothness:
+    m_OverrideState: 1
+    m_Value: 0.85
+  rounded:
+    m_OverrideState: 1
+    m_Value: 0
 --- !u!1 &1323249727
 GameObject:
   m_ObjectHideFlags: 0
@@ -11280,6 +11243,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1518520757}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1520456317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 1309567122}
+  - {fileID: 1852016440}
 --- !u!1 &1523781194
 GameObject:
   m_ObjectHideFlags: 0
@@ -11991,7 +11969,7 @@ MonoBehaviour:
   priority: 100
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 932357235}
+  sharedProfile: {fileID: 1520456317}
 --- !u!1 &1623987944
 GameObject:
   m_ObjectHideFlags: 0
@@ -13128,7 +13106,7 @@ MonoBehaviour:
   cutsceneController: {fileID: 274622854}
   timelineDirector: {fileID: 0}
   generatedTimelineVersion: 9
-  generatedTimelineConfigHash: -448883240
+  generatedTimelineConfigHash: 176206754
   gameplayPlayerObject: {fileID: 1986611182}
   playerRoot: {fileID: 1986611186}
   playerCamera: {fileID: 625875924}
@@ -13566,6 +13544,34 @@ Transform:
   - {fileID: 641356131}
   m_Father: {fileID: 1788150042}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1852016440
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
+  m_Name: ColorAdjustments
+  m_EditorClassIdentifier: 
+  active: 1
+  postExposure:
+    m_OverrideState: 1
+    m_Value: 0
+  contrast:
+    m_OverrideState: 1
+    m_Value: 0
+  colorFilter:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  hueShift:
+    m_OverrideState: 1
+    m_Value: 0
+  saturation:
+    m_OverrideState: 1
+    m_Value: 0
 --- !u!1 &1866113678
 GameObject:
   m_ObjectHideFlags: 0
@@ -15358,7 +15364,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 80}
+  m_AnchoredPosition: {x: 0, y: 220}
   m_SizeDelta: {x: 600, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2131623556

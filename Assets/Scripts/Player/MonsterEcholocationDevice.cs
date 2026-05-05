@@ -7,7 +7,7 @@ public class MonsterEcholocationDevice : MonoBehaviour
     private const int AuraTextureSize = 128;
 
     [Header("Input")]
-    [SerializeField] private KeyCode activationKey = KeyCode.Alpha2;
+    [SerializeField] private KeyCode activationKey = KeyCode.R;
     [SerializeField] private float activationCooldown = 6f;
 
     [Header("References")]

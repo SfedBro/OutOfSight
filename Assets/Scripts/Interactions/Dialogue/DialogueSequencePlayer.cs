@@ -29,6 +29,8 @@ namespace Game.Interaction
 
         [Header("Subtitles")]
         [SerializeField] private int fontSize = 28;
+        [SerializeField] private Vector2 subtitleAnchorMin = new Vector2(0.12f, 0.05f);
+        [SerializeField] private Vector2 subtitleAnchorMax = new Vector2(0.88f, 0.16f);
 
         private AudioSource voiceAudioSource;
         private Transform currentPlaybackSource;
@@ -245,8 +247,8 @@ namespace Game.Interaction
             subtitleObject.transform.SetParent(canvasObject.transform, false);
 
             RectTransform subtitleRect = subtitleObject.AddComponent<RectTransform>();
-            subtitleRect.anchorMin = new Vector2(0.12f, 0.05f);
-            subtitleRect.anchorMax = new Vector2(0.88f, 0.16f);
+            subtitleRect.anchorMin = subtitleAnchorMin;
+            subtitleRect.anchorMax = subtitleAnchorMax;
             subtitleRect.offsetMin = Vector2.zero;
             subtitleRect.offsetMax = Vector2.zero;
 

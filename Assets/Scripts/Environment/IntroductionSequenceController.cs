@@ -358,7 +358,15 @@ namespace OutOfSight.Environment
         private IEnumerator ActivateTelevisionRoutine()
         {
             PlayClip(televisionAudioSource, televisionActivateClip);
-            PlayClip(monsterReactionAudioSource, monsterReactionClip);
+            PlayMonsterReaction();
+
+            // Звук активации на прокси
+            if (monsterProxyObject != null)
+            {
+                var proxyAnimator = monsterProxyObject.GetComponent<MonsterProxyAnimator>();
+                if (proxyAnimator != null)
+                    proxyAnimator.PlayActivationSound();
+            }
 
             Transform proxyTransform = monsterProxyObject != null ? monsterProxyObject.transform : null;
             Transform proxyTargetTransform = televisionTarget != null ? televisionTarget : proxyTransform;
@@ -386,6 +394,14 @@ namespace OutOfSight.Environment
 
                 proxyTransform.position = proxyTargetTransform.position;
                 proxyTransform.rotation = proxyTargetTransform.rotation;
+
+                // Сбрасываем базу анимации после остановки
+                if (monsterProxyObject != null)
+                {
+                    var proxyAnimator = monsterProxyObject.GetComponent<MonsterProxyAnimator>();
+                    if (proxyAnimator != null)
+                        proxyAnimator.ResetBase();
+                }
             }
 
             if (monsterActivationDelay > 0f)
@@ -444,6 +460,39 @@ namespace OutOfSight.Environment
                 return;
 
             monsterProxyObject.SetActive(value);
+        }
+
+        private void PlayMonsterReaction()
+        {
+            if (monsterReactionClip == null)
+                return;
+
+            // Создаём временный 2D AudioSource чтобы звук был слышен игроку независимо от расстояния
+            AudioSource source = monsterReactionAudioSource;
+            float savedBlend = 0f;
+            bool usedExisting = false;
+
+            if (source != null)
+            {
+                // Используем существующий, но переключаем в 2D
+                savedBlend = source.spatialBlend;
+                source.spatialBlend = 0f;
+                source.PlayOneShot(monsterReactionClip);
+                source.spatialBlend = savedBlend;
+                usedExisting = true;
+            }
+
+            if (!usedExisting)
+            {
+                // Создаём временный 2D объект
+                GameObject tempObj = new GameObject("MonsterReactionAudio");
+                AudioSource tempSource = tempObj.AddComponent<AudioSource>();
+                tempSource.spatialBlend = 0f;
+                tempSource.playOnAwake = false;
+                tempSource.volume = 1f;
+                tempSource.PlayOneShot(monsterReactionClip);
+                Destroy(tempObj, monsterReactionClip.length + 0.5f);
+            }
         }
 
         private static void PlayClip(AudioSource source, AudioClip clip)
